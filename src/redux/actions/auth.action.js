@@ -26,6 +26,9 @@ export const login = () => async (dispatch) => {
       photoURL: res.additionalUserInfo.profile.picture,
     };
 
+    sessionStorage.setItem("ytc-access-token", accessToken);
+    sessionStorage.setItem("ytc-user", JSON.stringify(profile));
+
     dispatch({
       type: LOGIN_SUCCESS,
       payload: accessToken,
@@ -41,4 +44,14 @@ export const login = () => async (dispatch) => {
       payload: error.message,
     });
   }
+};
+
+export const log_out = () => async (dispatch) => {
+  await auth.signOut();
+  dispatch({
+    type: LOG_OUT,
+  });
+
+  sessionStorage.removeItem("ytc-access-token");
+  sessionStorage.removeItem("ytc-user");
 };
